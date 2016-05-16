@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 // mostrar informacion
 Route::resource('noticias', 'noticiasController');
-Route::resource('curiosidades', 'noticiasController');
-Route::resource('deportes', 'noticiasController');
-Route::resource('farandula', 'noticiasController');
+// Route::resource('curiosidades', 'noticiasController');
+// Route::resource('deportes', 'noticiasController');
+// Route::resource('farandula', 'noticiasController');
 
 // Route::post('/api/v1/noticias', 'Noticias@store');
