@@ -2,11 +2,13 @@
 
 namespace App\ Http\ Controllers;
 
-use App\ Programas;
-use App\ locutores;
-use Illuminate\ Http\ Request;
-use App\ Http\ Requests;
-use App\ Http\ Controllers\ Controller;
+use App\Programas;
+use App\locutores;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class programasController extends Controller {
 
@@ -28,26 +30,23 @@ class programasController extends Controller {
     public
     function store(Request $request) {
 
-        // $tabla = new Programas;
+        $tabla = new Programas;
 
-        // //$tabla->id = $request->input('id');
-        // $tabla->nombre = $request->input('nombre');
-        // $tabla->target = $request->input('target');
-        // $tabla->edades = $request->input('edades');
-        // $tabla->audiencia = $request->input('audiencia');
-        // $tabla->frecuencias = $request->input('frecuencias');
-        // $tabla->musical = $request->input('musical');
-        // $strgdias = implode(",", $request->input('dias'));
-        // $tabla->dias = $strgdias;
-        // $horario = " DE ".$request->input('hinicio').
-        // " A ".$request->input('hfin');
-        // $tabla->horario = $horario;
-        // $tabla->descripcion = $request->input('descripcion');
-        // $tabla->estado = "1";
-        // $tabla->save();
-        // $ultimo_programa = $tabla->id;
+        $tabla->nombre = $request->input('nombre');
+        $tabla->target = $request->input('target');
+        $tabla->edades = $request->input('edades');
+        $tabla->audiencia = $request->input('audiencia');
+        $tabla->frecuencias = $request->input('frecuencias');
+        $tabla->musical = $request->input('musical');
+        $tabla->dias = $request->input('dias');
+        $horario = " DE ".$request->input('hinicio')." A ".$request->input('hfin');
+        $tabla->horario = $horario;
+        $tabla->descripcion = $request->input('descripcion');
+        $tabla->estado = "1";
+        //$tabla->save();
+        $ultimo_programa = $tabla->id;
 
-        // $locutores = $request->get('locutores');
+        $locutores = $request->get('locutores');
 
         // foreach($locutores as $locutor) {
         //     $tabla = new locutores;
@@ -55,10 +54,15 @@ class programasController extends Controller {
         //     $tabla->apellidos = $apellidos = $locutor['apellidos'];
         //     $tabla->descripcion = $descripcion = $locutor['descripcion'];
         //     $tabla->id_programa = $ultimo_programa;
-        //     $tabla->save();
+        //     //$tabla->save();
         // }
 
-        return $request->file();
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+        $file->move(base_path().'/public/logos/', $ultimo_programa.$extension);
+
+
+        return $request->all();
 
     }
 }
