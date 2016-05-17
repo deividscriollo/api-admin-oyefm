@@ -62,7 +62,7 @@ class programasController extends Controller {
         $file->move(base_path().'/public/logos/', $ultimo_programa.$extension);
 
 
-        return $request->all();
+        return $request->input('datos')->get('nombre');
 
     }
 }
