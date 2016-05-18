@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Farandula extends Model
 {
     //
-    protected $tabla = 'Farandula';
-    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','img', 'estado', 'created_at');
+    protected $tabla = 'farandula';
+    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','estado', 'created_at');
 }

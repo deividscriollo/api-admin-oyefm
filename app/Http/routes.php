@@ -18,6 +18,7 @@ Route::get('/', function () {
 // mostrar informacion
 Route::resource('noticias', 'noticiasController');
  Route::resource('programas', 'programasController');
+  Route::resource('galeria', 'galeriaController');
 // Route::resource('curiosidades', 'noticiasController');
 // Route::resource('deportes', 'noticiasController');
 // Route::resource('farandula', 'noticiasController');

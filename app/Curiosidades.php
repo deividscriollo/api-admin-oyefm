@@ -8,5 +8,5 @@ class Curiosidades extends Model
 {
     //
     protected $tabla = 'Curiosidades';
-    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','img', 'estado', 'created_at');
+    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','estado', 'created_at');
 }

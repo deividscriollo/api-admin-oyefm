@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\File;
 
 class programasController extends Controller {
 
-    public
-    function __construct() {
+    public function __construct() {
         $this-> middleware('cors');
     }
     /**
@@ -32,37 +31,36 @@ class programasController extends Controller {
 
         $tabla = new Programas;
 
-        $tabla->nombre = $request->input('nombre');
-        $tabla->target = $request->input('target');
-        $tabla->edades = $request->input('edades');
-        $tabla->audiencia = $request->input('audiencia');
-        $tabla->frecuencias = $request->input('frecuencias');
-        $tabla->musical = $request->input('musical');
-        $tabla->dias = $request->input('dias');
-        $horario = " DE ".$request->input('hinicio')." A ".$request->input('hfin');
+        $tabla->nombre = $request->input('datos.nombre');
+        $tabla->target = $request->input('datos.target');
+        $tabla->edades = $request->input('datos.edades');
+        $tabla->audiencia = $request->input('datos.audiencia');
+        $tabla->frecuencias = $request->input('datos.frecuencias');
+        $tabla->musical = $request->input('datos.musical');
+        $tabla->dias = $request->input('datos.dias');
+        $horario = " DE ".$request->input('datos.hinicio')." A ".$request->input('datos.hfin');
         $tabla->horario = $horario;
-        $tabla->descripcion = $request->input('descripcion');
+        $tabla->descripcion = $request->input('datos.descripcion');
         $tabla->estado = "1";
-        //$tabla->save();
+        $tabla->save();
         $ultimo_programa = $tabla->id;
 
-        $locutores = $request->get('locutores');
+        $locutores = $request->input('datos.locutores');
 
-        // foreach($locutores as $locutor) {
-        //     $tabla = new locutores;
-        //     $tabla->nombres = $nombres = $locutor['nombres'];
-        //     $tabla->apellidos = $apellidos = $locutor['apellidos'];
-        //     $tabla->descripcion = $descripcion = $locutor['descripcion'];
-        //     $tabla->id_programa = $ultimo_programa;
-        //     //$tabla->save();
-        // }
+        foreach($locutores as $locutor) {
+            $tabla = new locutores;
+            $tabla->nombres = $nombres = $locutor['nombres'];
+            $tabla->apellidos = $apellidos = $locutor['apellidos'];
+            $tabla->descripcion = $descripcion = $locutor['descripcion'];
+            $tabla->id_programa = $ultimo_programa;
+            $tabla->save();
+        }
 
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
-        $file->move(base_path().'/public/logos/', $ultimo_programa.$extension);
+        $file->move(base_path().'/public/logos/', $ultimo_programa.".".$extension);
 
-
-        return $request->input('datos')->get('nombre');
+        return response()->json(["mensaje"=>"Programa Creado correctamente"]);;
 
     }
 }
