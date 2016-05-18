@@ -28,20 +28,18 @@ class galeriaController extends Controller
 
          $tabla = new galeria;
 
-
+$i=0;
  foreach($request->file('archivos') as $obj) {
  	$tabla->src="default.jpg";
- 	$tabla->descripcion="nn";
-             echo $obj['file'];
+ 	$descripcion=$request->input('archivos.'.$i);
+ 	echo $descripcion;
+$i++;
         }
 
-        foreach($request->input('archivos') as $obj) {
-           $descripcion=$obj['descripcion'];
-           echo $descripcion.',';
-        }
-
-       
-
+ //        foreach($request->input('archivos') as $obj) {
+ //           $descripcion=$obj['descripcion'];
+ //           echo $descripcion.',';
+ //        }
 
         // $file = $request->file('file');
         // $extension = $file->getClientOriginalExtension();
