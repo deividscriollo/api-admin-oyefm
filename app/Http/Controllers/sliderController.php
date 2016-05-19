@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\galeria;
 
 use App\Http\Requests;
+use App\Slider;
 
-class galeriaController extends Controller
+class sliderController extends Controller
 {
-   public function __construct() {
+     public function __construct() {
         $this-> middleware('cors');
     }
     /**
@@ -19,7 +19,7 @@ class galeriaController extends Controller
      */
     public
     function index() {
-        $noticias = galeria::orderBy('idgaleria', 'desc')->get();
+        $noticias = Slider::orderBy('id', 'desc')->get();
         return response()-> json($noticias->toArray());
     }
     //
@@ -31,16 +31,16 @@ class galeriaController extends Controller
  	$img=$obj['file'];
  	$objdesc=$request->input('archivos.'.$i);
  	$extension=$img->getClientOriginalExtension();
- 	$tabla = new galeria;
+ 	$tabla = new Slider;
  	$tabla->src="default.jpg";
  	$tabla->descripcion=$objdesc['descripcion'];
     $tabla->titulo=$objdesc['titulo'];
  	$tabla->save();
  	$idgaleria=$tabla->id;
  	$idnoticias = $tabla->id;
- 	$tabla::where('idgaleria', '=', $idgaleria)->update(['src' => "http://192.168.1.31/api-admin-oyefm/public/imgprogramas/imggaleria/galeria_".$i.".".$extension]);
+ 	$tabla::where('id', '=', $idgaleria)->update(['src' => "http://192.168.1.31/api-admin-oyefm/public/imgprogramas/imglider/slide_".$i.".".$extension]);
     //------------------------copiar disco
-    $img->move(base_path().'/public/imggaleria/', "galeria_".$i.".".$extension);
+    $img->move(base_path().'/public/imglider/', "slide_".$i.".".$extension);
 
 
 	$i++;

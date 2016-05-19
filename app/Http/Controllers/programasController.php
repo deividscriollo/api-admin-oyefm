@@ -30,9 +30,10 @@ class programasController extends Controller {
     function store(Request $request) {
 
         $tabla = new Programas;
-
+        $file = $request->file('file');
         $tabla->nombre = $request->input('datos.nombre');
         $tabla->target = $request->input('datos.target');
+        $tabla->logo   = "default.png";
         $tabla->edades = $request->input('datos.edades');
         $tabla->audiencia = $request->input('datos.audiencia');
         $tabla->frecuencias = $request->input('datos.frecuencias');
@@ -48,19 +49,19 @@ class programasController extends Controller {
         $locutores = $request->input('datos.locutores');
 
         foreach($locutores as $locutor) {
-            $tabla = new locutores;
-            $tabla->nombres = $nombres = $locutor['nombres'];
-            $tabla->apellidos = $apellidos = $locutor['apellidos'];
-            $tabla->descripcion = $descripcion = $locutor['descripcion'];
-            $tabla->id_programa = $ultimo_programa;
-            $tabla->save();
+            $tabla_locutores = new locutores;
+            $tabla_locutores->nombres = $nombres = $locutor['nombres'];
+            $tabla_locutores->apellidos = $apellidos = $locutor['apellidos'];
+            $tabla_locutores->descripcion = $descripcion = $locutor['descripcion'];
+            $tabla_locutores->id_programa = $ultimo_programa;
+            $tabla_locutores->save();
         }
 
-        $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
-        $file->move(base_path().'/public/logos/', $ultimo_programa.".".$extension);
+        $file->move(base_path().'/public/imgprogramas/', "logo_".$request->input('datos.nombre').".".$extension);
+        $tabla::where('id', '=', $ultimo_programa)->update(['logo' => "http://192.168.1.31/api-admin-oyefm/public/imgprogramas/".$request->input('datos.nombre')."_".".".$extension]);
 
-        return response()->json(["mensaje"=>"Programa Creado correctamente"]);;
+        return response()->json(["mensaje"=>"Programa Creado correctamente"]);
 
     }
 }

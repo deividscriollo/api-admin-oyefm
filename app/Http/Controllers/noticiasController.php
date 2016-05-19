@@ -25,8 +25,32 @@ class noticiasController extends Controller{
      * @return Response
      */
     public function index() {
-       $noticias = Deportes::orderBy('id', 'desc')->get();
-       return response()->json($noticias->toArray());
+        if (Noticias::orderBy('id', 'desc')->get()) {
+     $noticias = Noticias::orderBy('id', 'desc')->get();
+        }
+        else{
+            $noticias="SIN PUBLICACIONES";
+        }
+        if (Deportes::orderBy('id', 'desc')->get()) {
+                  $deportes = Deportes::orderBy('id', 'desc')->get();
+        }
+        else{
+            $deportes="SIN PUBLICACIONES";
+        }
+        if (Farandula::orderBy('id', 'desc')->get()) {
+                  $farandula = Farandula::orderBy('id', 'desc')->get();
+        }
+        else{
+            $farandula="SIN PUBLICACIONES";
+        }
+        if (Curiosidades::orderBy('id', 'desc')->get()) {
+                  $curiosidades = Curiosidades::orderBy('id', 'desc')->get();
+        }
+        else{
+            $curiosidades="SIN PUBLICACIONES";
+        }
+
+       return response()->json(["noticias"=>$noticias,"deportes"=>$deportes,"farandula"=>$farandula,"curiosidades"=>$curiosidades]);
     }
     //
     public function store(Request $request){
@@ -56,7 +80,7 @@ switch ($categoria) {
         $tabla->stado = "1";
         $tabla->save();
         $idnoticias = $tabla->id;
-           $files = $request->file('file');
+        $files = $request->file('file');
         $i=0;
         foreach ($files as $img) {
 switch ($categoria) {
@@ -75,17 +99,28 @@ switch ($categoria) {
 }
             $extension = $img->getClientOriginalExtension();
             $imgtable->id_categoria=$idnoticias;
-            $imgtable->src="noticia_".$idnoticias."_".$i.".".$extension;
+            $imgtable->src="http://192.168.1.31/api-admin-oyefm/public/imgcategorias/".$categoria."_".$idnoticias."_".$i.".".$extension;
             $imgtable->save();
-            $img->move(base_path().'/public/imgnoticias/', "noticia_".$idnoticias."_".$i.".".$extension);
-            //$tabla::where('id', '=', $idnoticias)->update(['img' => "noticia_".$idnoticias."_".$i.".".$extension]);
+            $img->move(base_path().'/public/imgcategorias/', $categoria."_".$idnoticias."_".$i.".".$extension);
+            //$tabla::where('id', '=', $idnoticias)->update(['img' => $categoria"_".$idnoticias."_".$i.".".$extension]);
             $i++;
         }
 
 
      
-       return $tabla->id;
+       return response()->json(["mensaje"=>"Noticia Creada correctamente"]);
 
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+       return $id;
     }
 
 
