@@ -17,7 +17,9 @@ Route::get('/', function () {
 
 // mostrar informacion
 Route::resource('noticias', 'noticiasController');
+Route::delete('delnoticia/{delId}/{categoria}', 'deleteController@destroy');
 Route::resource('programas', 'programasController');
+Route::resource('videosemanal', 'videosemanalController');
 Route::resource('galeria', 'galeriaController');
 Route::resource('clientes', 'clientesController');
 Route::resource('slider', 'sliderController');

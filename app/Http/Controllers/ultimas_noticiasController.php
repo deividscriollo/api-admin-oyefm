@@ -57,6 +57,6 @@ class ultimas_noticiasController extends Controller
            $curiosidades="Sin Curiosidades";
         } 
 
-       return response()->json(["noticias"=>$noticias,"deportes"=>$deportes,"farandula"=>$farandula,"curiosidades"=>$curiosidades]);
+       return response()->json(array(["noticias"=>$noticias]));
     }
 }

@@ -22,8 +22,8 @@ class programasController extends Controller {
      */
     public
     function index() {
-        $noticias = Programas::orderBy('id', 'desc')->get();
-        return response()-> json($noticias->toArray());
+        $programas = Programas::orderBy('id', 'desc')->get();
+        return response()->json(["programas"=>$programas]);
     }
     //
     public
