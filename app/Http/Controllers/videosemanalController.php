@@ -19,8 +19,8 @@ class videosemanalController extends Controller
      */
     public
     function index() {
-        $videosemanal = videosemanal::orderBy('id', 'desc')->first()->get();
-        return response()-> json($videosemanal->toArray());
+        $videosemanal = videosemanal::orderBy('id', 'desc')->first();
+        return response()->json([$videosemanal]);
     }
     //
     public
@@ -34,6 +34,6 @@ class videosemanalController extends Controller
 	$tabla->url=$request->input('url');
 	$tabla->otros=$request->input('otros');
 	$tabla->save();
-    	return response()->json(["mensaje"=>"Video semanal guardado correctamente"]);
+    return response()->json(["mensaje"=>"Video semanal guardado correctamente"]);
     }
 }

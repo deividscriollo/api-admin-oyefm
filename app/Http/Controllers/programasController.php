@@ -22,8 +22,30 @@ class programasController extends Controller {
      */
     public
     function index() {
-        $programas = Programas::orderBy('id', 'desc')->get();
-        return response()->json(["programas"=>$programas]);
+         $programas = Programas::orderBy('id', 'desc')->get();
+        // $locutores = locutores::orderBy('id', 'desc')->get();
+        // return response()->json(["programas"=>$programas,"locutores"=>$locutores]);
+         $respuesta=array();
+foreach ($programas as $key => $programa) {
+    //echo $programa['id'];
+    $programavec=array();
+    $locutores = locutores::where('id_programa', '=', $programa['id'])->get();
+    array_push($programavec,$programa);
+    $locutoresvec=array();
+    foreach ($locutores as $key => $locutor) {
+        array_push($locutoresvec,$locutor);
+        //echo $programa['nombre']."---".$locutor['nombres']."<br>";
+    }
+    array_push($programavec,$locutoresvec);
+    array_push($respuesta,$programavec);
+     
+
+}
+
+
+
+  return $respuesta;
+
     }
     //
     public

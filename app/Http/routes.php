@@ -15,7 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// mostrar informacion
+
+Route::group(['middleware' => 'cors'], function(){
+Route::post('registro', 'usuarioController@registrar');
+Route::post('login', 'usuarioController@login');
+Route::get('usuario', ['uses' => 'usuarioController@getAuthenticatedUser']);
+  // mostrar informacion
 Route::resource('noticias', 'noticiasController');
 Route::delete('delnoticia/{delId}/{categoria}', 'deleteController@destroy');
 Route::resource('programas', 'programasController');
@@ -24,8 +29,5 @@ Route::resource('galeria', 'galeriaController');
 Route::resource('clientes', 'clientesController');
 Route::resource('slider', 'sliderController');
 Route::resource('ultimas-noticias', 'ultimas_noticiasController');
-// Route::resource('curiosidades', 'noticiasController');
-// Route::resource('deportes', 'noticiasController');
-// Route::resource('farandula', 'noticiasController');
+});
 
-// Route::post('/api/v1/noticias', 'Noticias@store');
