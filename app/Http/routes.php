@@ -29,5 +29,7 @@ Route::resource('galeria', 'galeriaController');
 Route::resource('clientes', 'clientesController');
 Route::resource('slider', 'sliderController');
 Route::resource('ultimas-noticias', 'ultimas_noticiasController');
+Route::post('addTop10', 'top10Controller@addTop10');
+Route::get('gettop10', 'top10Controller@getlistaTop10');
 });
 
