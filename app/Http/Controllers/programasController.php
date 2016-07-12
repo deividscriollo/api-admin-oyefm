@@ -49,13 +49,10 @@ foreach ($programas as $key => $programa) {
      
 
 }
-
-
-
   return reponse()->json(array($respuesta));
 
     }
-       function programa_actual() {
+       public function programa_actual() {
          // $parametro=$request->input('');
         date_default_timezone_set('America/Guayaquil');
         setlocale(LC_TIME, 'spanish');
@@ -81,13 +78,10 @@ foreach ($programas as $key => $programa) {
   }
 }
 
-
-
   return reponse()->json(array($respuesta));
 
     }
-    public
-    function store(Request $request) {
+    public    function store(Request $request) {
 
         $tabla = new Programas;
         $file = $request->file('file');
