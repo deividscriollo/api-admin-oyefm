@@ -49,7 +49,7 @@ foreach ($programas as $key => $programa) {
      
 
 }
-  return reponse()->json(array($respuesta));
+  return response()->json(array($respuesta));
 
     }
        public function programa_actual() {
@@ -66,7 +66,13 @@ foreach ($programas as $key => $programa) {
 foreach ($programas as $key => $programa) {
     //echo $programa['id'];
     $horario=explode(',', $programa['horario']);
-    // echo "<br>".strtotime($horaactual)."----".strtotime($horario[0]);
+    $horario[0]=str_replace(' PM', '', $horario[0]);
+    $horario[0]=str_replace(' AM', '', $horario[0]);
+    //---------------------- hora fin
+    $horario[1]=str_replace(' AM', '', $horario[1]);
+    $horario[1]=str_replace(' PM', '', $horario[1]);
+
+     // echo "<br>".strtotime($horaactual)."($horaactual)"."----".strtotime($horario[0])."($horario[0])";
   if (strtotime($horaactual)>=strtotime($horario[0])&&strtotime($horaactual)<=strtotime($horario[1])) {
     $programaarray=array();
     $programaarray['nombre']=$programa['nombre'];
@@ -75,10 +81,13 @@ foreach ($programas as $key => $programa) {
     $programaarray['logo']=$programa['logo'];
     $programaarray['diaslaborables']=explode(',', $programa['dias']);
         array_push($respuesta,$programaarray);
+  }else{
+    $respuesta['nombre']="Oye Fm";
+    $respuesta['logo']="x0.jpg";
   }
 }
 
-  return reponse()->json(array($respuesta));
+  return response()->json(array("respuesta"=>array($respuesta)),200);
 
     }
     public    function store(Request $request) {

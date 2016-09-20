@@ -20,7 +20,7 @@ class videosemanalController extends Controller
     public
     function index() {
         $videosemanal = videosemanal::orderBy('id', 'desc')->first();
-        return response()->json([$videosemanal]);
+        return response()->json(["respuesta"=>$videosemanal]);
     }
     //
     public

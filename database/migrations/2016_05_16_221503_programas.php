@@ -24,6 +24,7 @@ class Programas extends Migration
             $table->string('dias');
             $table->string('horario');
             $table->string('descripcion');
+            $table->string('logo');
             $table->string('estado');
             $table->timestamps();
         });
