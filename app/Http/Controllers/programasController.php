@@ -57,37 +57,50 @@ foreach ($programas as $key => $programa) {
         date_default_timezone_set('America/Guayaquil');
         setlocale(LC_TIME, 'spanish');
 
-        $horaactual=date('G:i');
         // echo $horaactual;
          $programas = Programas::select('nombre','horario','logo','dias')->orderBy('id', 'desc')->get();
         // $locutores = locutores::orderBy('id', 'desc')->get();
         // return response()->json(["programas"=>$programas]);
          $respuesta=array();
 foreach ($programas as $key => $programa) {
-    //echo $programa['id'];
+    $horaactual=strtotime(date('g:i A'));
     $horario=explode(',', $programa['horario']);
-    $horario[0]=str_replace(' PM', '', $horario[0]);
-    $horario[0]=str_replace(' AM', '', $horario[0]);
-    //---------------------- hora fin
-    $horario[1]=str_replace(' AM', '', $horario[1]);
-    $horario[1]=str_replace(' PM', '', $horario[1]);
+    //--------------- calculos -----------------------------------
+    $horario_inicio=strtotime($horario[0]);
+    $horario_fin=strtotime($horario[1]);
 
-     // echo "<br>".strtotime($horaactual)."($horaactual)"."----".strtotime($horario[0])."($horario[0])";
-  if (strtotime($horaactual)>=strtotime($horario[0])&&strtotime($horaactual)<=strtotime($horario[1])) {
+    // echo('horario_inicio:'.$horario_inicio.'horario_fin:'.$horario_fin."\n");
+ 
+  if (
+        (
+            $horario_inicio < $horario_fin &&
+            $horaactual >= $horario_inicio &&
+            $horaactual <= $horario_fin
+        ) ||
+        (
+            $horario_inicio > $horario_fin && (
+            $horaactual >= $horario_inicio ||
+            $horaactual <= $horario_fin
+        )
+        )
+
+    ) {
     $programaarray=array();
     $programaarray['nombre']=$programa['nombre'];
     $programaarray['horainicio']=$horario[0];
     $programaarray['horafin']=$horario[1];
     $programaarray['logo']=$programa['logo'];
     $programaarray['diaslaborables']=explode(',', $programa['dias']);
-        array_push($respuesta,$programaarray);
-  }else{
-    $respuesta['nombre']="Oye Fm";
-    $respuesta['logo']="x0.jpg";
+    array_push($respuesta,$programaarray);
   }
 }
+    if (array_key_exists(1,$respuesta))
+      {
+      return response()->json(array("respuesta"=>array($respuesta[0])),200);
+      }else{
+            return response()->json(array("respuesta"=>array($respuesta)),200);
+      }
 
-  return response()->json(array("respuesta"=>array($respuesta)),200);
 
     }
     public    function store(Request $request) {
