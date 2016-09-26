@@ -63,7 +63,7 @@ class programasController extends Controller {
     $dias = array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
     
     $acumulador[0]=0;
-    $acumulador[1]='Oye fm';
+    $acumulador[1]=array("nombre"=>"Oye Fm","logo"=>"x0.jpg");
     for ($i=0; $i < count($programas) ; $i++) {
     $horario=explode(',', $programas[$i]['horario']);
     $horainicio=strtotime($horario[0]);
@@ -75,7 +75,7 @@ class programasController extends Controller {
             $res = $this->verificar_dias_laborables($diaactual,$diaslaborables);
             if ($res=='true') {
                 $acumulador[0]=1;
-                $acumulador[1] = $programas[$i]['nombre'];
+                $acumulador[1] =array("nombre"=>$programas[$i]['nombre'],"logo"=>$programas[$i]['logo']);
             }
         }
     }
