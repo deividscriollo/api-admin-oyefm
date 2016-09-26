@@ -53,56 +53,45 @@ foreach ($programas as $key => $programa) {
 
     }
        public function programa_actual() {
-         // $parametro=$request->input('');
+
         date_default_timezone_set('America/Guayaquil');
         setlocale(LC_TIME, 'spanish');
 
-        // echo $horaactual;
-         $programas = Programas::select('nombre','horario','logo','dias')->orderBy('id', 'desc')->get();
-        // $locutores = locutores::orderBy('id', 'desc')->get();
-        // return response()->json(["programas"=>$programas]);
-         $respuesta=array();
-foreach ($programas as $key => $programa) {
-    $horaactual=strtotime(date('g:i A'));
-    $horario=explode(',', $programa['horario']);
-    //--------------- calculos -----------------------------------
-    $horario_inicio=strtotime($horario[0]);
-    $horario_fin=strtotime($horario[1]);
+    $horaactual = date('g:i A');
+    $horaactual = strtotime($horaactual);
+    $programas = Programas::select('nombre','horario','logo','dias')->orderBy('id', 'desc')->get();
+    $dias = array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+    
+    $acumulador[0]=0;
+    $acumulador[1]='Oye fm';
+    for ($i=0; $i < count($programas) ; $i++) {
+    $horario=explode(',', $programas[$i]['horario']);
+    $horainicio=strtotime($horario[0]);
+    $horafin=strtotime($horario[1]);
+    // echo($programas[$i]['nombre'].' hora inicio:'.$horario[0].'-------'.'hora fin:'.$horario[1]."\n");
+    if($horaactual > $horainicio && $horaactual < $horafin) {
+            $diaactual=$dias[date("w")];
+            $diaslaborables=explode(',', $programas[$i]['dias']);
+            $res = $this->verificar_dias_laborables($diaactual,$diaslaborables);
+            if ($res=='true') {
+                $acumulador[0]=1;
+                $acumulador[1] = $programas[$i]['nombre'];
+            }
+        }
+    }
 
-    // echo('horario_inicio:'.$horario_inicio.'horario_fin:'.$horario_fin."\n");
- 
-  if (
-        (
-            $horario_inicio < $horario_fin &&
-            $horaactual >= $horario_inicio &&
-            $horaactual <= $horario_fin
-        ) ||
-        (
-            $horario_inicio > $horario_fin && (
-            $horaactual >= $horario_inicio ||
-            $horaactual <= $horario_fin
-        )
-        )
-
-    ) {
-    $programaarray=array();
-    $programaarray['nombre']=$programa['nombre'];
-    $programaarray['horainicio']=$horario[0];
-    $programaarray['horafin']=$horario[1];
-    $programaarray['logo']=$programa['logo'];
-    $programaarray['diaslaborables']=explode(',', $programa['dias']);
-    array_push($respuesta,$programaarray);
-  }
-}
-    if (array_key_exists(1,$respuesta))
-      {
-      return response()->json(array("respuesta"=>array($respuesta[0])),200);
-      }else{
-            return response()->json(array("respuesta"=>array($respuesta)),200);
-      }
-
+    return response()->json(["respuesta"=>$acumulador],200);
 
     }
+
+    function verificar_dias_laborables($diaactual,$diaslaborables){
+        $res='false';
+        if (in_array($diaactual, $diaslaborables)) {
+            $res='true';
+        }
+        return $res;
+    }
+
     public    function store(Request $request) {
 
         $tabla = new Programas;
