@@ -18,6 +18,7 @@ class CreateTop10sTable extends Migration
             $table->string('artista');
             $table->string('votos');
             $table->string('url');
+            $table->integer('img');
             $table->integer('estado');
             // $table->date('inicio');
             // $table->date('fin');

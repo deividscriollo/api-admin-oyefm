@@ -16,17 +16,26 @@ class top10Controller extends Controller
 
     public function addTop10(Request $request)
     {
-        $tabla_top=new Top10s();
-        $tabla_top->where('estado',1)->update(["estado"=>0]);
+        // $tabla_top=new Top10s();
+        // $tabla_top->where('estado',1)->update(["estado"=>0]);
 
-        foreach ($request->input('top') as $key => $cancion) {
+        foreach ($request->file('listatop10') as $key => $obj) {
+           $img=$obj['img'];
+           $extension=$img->getClientOriginalExtension();
          $tabla_top=new Top10s();
-         $tabla_top->nombre_cancion=$cancion['cancion'];
-         $tabla_top->artista=$cancion['artista'];
+         $tabla_top->nombre_cancion=$request->input('listatop10')[$key]['cancion'];
+         $tabla_top->artista=$request->input('listatop10')[$key]['artista'];
          $tabla_top->votos=0;
-         $tabla_top->url=$cancion['url'];
+         $tabla_top->url=$request->input('listatop10')[$key]['url'];
+         $tabla_top->img="http://192.168.0.101/api-admin-oyefm/public/imgtop10/default.jpg";
          $tabla_top->estado=1;
          $savelista=$tabla_top->save();
+         // //------------------------- imagen --------------------------------
+         $idcancion=$tabla_top->id;
+         $tabla_top::where('id', '=', $idcancion)->update(['img' => "http://192.168.0.101/api-admin-oyefm/public/imgtop10/top_".$key.".".$extension]);
+         // copiar img 
+         $img->move(base_path().'/public/imgtop10/', "top_".$key.".".$extension);
+
         }
 
        return response()->json(["respuesta"=>true]);
