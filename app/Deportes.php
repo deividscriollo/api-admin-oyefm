@@ -8,5 +8,5 @@ class Deportes extends Model
 {
     //
     protected $tabla = 'Deportes';
-    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','estado', 'created_at');
+    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','estado', 'created_at','id_programa');
 }

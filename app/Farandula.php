@@ -8,5 +8,5 @@ class Farandula extends Model
 {
     //
     protected $tabla = 'farandula';
-    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','estado', 'created_at');
+    protected $fillable = array('id', 'titulo', 'descripcion','URL','refencia','estado', 'created_at','id_programa');
 }

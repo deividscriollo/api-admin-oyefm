@@ -38,7 +38,7 @@ class galeriaController extends Controller
  	$tabla->save();
  	$idgaleria=$tabla->id;
  	$idnoticias = $tabla->id;
- 	$tabla::where('idgaleria', '=', $idgaleria)->update(['src' => "http://192.168.1.31/api-admin-oyefm/public/imgprogramas/imggaleria/galeria_".$i.".".$extension]);
+ 	$tabla::where('idgaleria', '=', $idgaleria)->update(['src' => "/public/imgprogramas/imggaleria/galeria_".$i.".".$extension]);
     //------------------------copiar disco
     $img->move(base_path().'/public/imggaleria/', "galeria_".$i.".".$extension);
 
